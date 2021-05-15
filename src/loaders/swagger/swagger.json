@@ -1,0 +1,556 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Users and products Api",
+    "description": "## This a api for users and products",
+    "version": "1.0.0",
+    "contact": {
+      "email": "gastonm3112@gmail.com"
+    }
+  },
+
+  "servers": [
+    {
+      "url": "http://localhost:5000/api/v1",
+      "description": "Desarrollo"
+    },
+    {
+      "url": "",
+      "description": "Producción"
+    }
+  ],
+  "tags": [
+    {
+      "name": "users",
+      "description": "Operations with Users. You can get, create, update and delete Users with the correct values"
+    }
+  ],
+  "paths": {
+    "/users/": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filter[name]",
+            "description": "filter users by name.",
+            "required": false,
+            "Schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter[lastName]",
+            "description": "filter users by last name.",
+            "required": false,
+            "Schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter[birthdate]",
+            "description": "filter users by birthdate.",
+            "required": false,
+            "Schema": {
+              "type": "date"
+            }
+          },
+          {
+            "in": "query",
+            "name": "options[limit]",
+            "description": "The limit of users displayed (Use it for pagination).",
+            "required": false,
+            "Schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "options[offset]",
+            "description": "index to start the search of users (Use it for pagination).",
+            "required": false,
+            "Schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["users"],
+        "summary": "Return a list of existing users with optional filters and pagination",
+        "description": "## You can use filters:\n - filter[name] {string}\n - filter[lastname] {string}:\n - filter[birthdate] {Date}: Date with Format MM-DD-YYYY\n ## You can use the pagination options :\n - options[limit] {integer}: the limit of user you want to see per page\n - options[offset] {integer}: the index you want to start your search\n ## Return values:\n - TotalDocs {number}: Total number of users in the collection\n - offset {number}: Only if specified or default page / offset values were used\n - limit {number}: Limit that was used\n - totalPages {number}: Total number of pages\n - page {number}: Current page number\n - pagingCounter {number}: The starting index/serial/chronological number of first document in current page. (Eg: if page=2 and limit=10, then pagingCounter will be 11)\n - hasPrevPage {bool}: Availability of previous page\n - hasNextPage {bool}: Availability of next page\n - prevPage {number}: Previous page number if available or NULL\n - nextPage {number}: Next page number if available or NULL",
+        "responses": {
+          "200": {
+            "description": "Status: OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserPagination"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message from DB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["users"],
+        "summary": "Create a new user.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateAndUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Return a list of users providing an existing id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the user you want to see.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON Array of users.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Update an existing user by providing the correct id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the user that needs to be updated.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateAndUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "Delete an existing user by providing the correct id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the user that needs to be deleted.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error message in JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorDB"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "role": {
+            "description": "the user role",
+            "type": "string",
+            "example": "Default value: USER_ROLE"
+          },
+          "enable": {
+            "description": "User is enabled?",
+            "type": "boolean",
+            "example": "true"
+          },
+          "_id": {
+            "description": "The user id.",
+            "type": "string",
+            "example": "25acd789def..."
+          },
+          "name": {
+            "description": "The user name.",
+            "type": "string",
+            "example": "Gastón"
+          },
+          "lastName": {
+            "description": "The user last name.",
+            "type": "string",
+            "example": "Martinez"
+          },
+          "email": {
+            "description": "The user email.",
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "password": {
+            "description": "The user password.",
+            "type": "string",
+            "example": "$2b$10$om4Aa5l2.QdSip87EdJM"
+          },
+          "birthdate": {
+            "description": "The user birthdate.",
+            "type": "date",
+            "example": "1989-12-31"
+          },
+          "createdAt": {
+            "description": "date of the user creation.",
+            "type": "date",
+            "example": "1989-12-31"
+          },
+          "updatedAt": {
+            "description": "date of the user update.",
+            "type": "date",
+            "example": "1989-12-31"
+          }
+        }
+      },
+      "UserPagination": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "role": {
+            "description": "the user role",
+            "type": "string",
+            "example": "Default value: USER_ROLE"
+          },
+          "enable": {
+            "description": "User is enabled?",
+            "type": "boolean",
+            "example": "true"
+          },
+          "_id": {
+            "description": "The user id.",
+            "type": "string",
+            "example": "25acd789def..."
+          },
+          "name": {
+            "description": "The user name.",
+            "type": "string",
+            "example": "Gastón"
+          },
+          "lastName": {
+            "description": "The user last name.",
+            "type": "string",
+            "example": "Martinez"
+          },
+          "email": {
+            "description": "The user email.",
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "password": {
+            "description": "The user password.",
+            "type": "string",
+            "example": "$2b$10$om4Aa5l2.QdSip87EdJM"
+          },
+          "birthdate": {
+            "description": "The user birthdate.",
+            "type": "date",
+            "example": "1989-12-31"
+          },
+          "createdAt": {
+            "description": "date of the user creation.",
+            "type": "date",
+            "example": "1989-12-31"
+          },
+          "updatedAt": {
+            "description": "date of the user update.",
+            "type": "date",
+            "example": "1989-12-31"
+          },
+          "totalDocs": {
+            "description": "The total of users from DB",
+            "type": "integer",
+            "example": "5"
+          },
+          "offset": {
+            "description": "index of the user you start the search",
+            "type": "integer",
+            "example": "0"
+          },
+          "limit": {
+            "description": "The limit of users per page",
+            "type": "integer",
+            "example": "10"
+          },
+          "totalPages": {
+            "description": "The total of pages with users",
+            "type": "integer",
+            "example": "1"
+          },
+          "page": {
+            "description": "The page you are at",
+            "type": "integer",
+            "example": "1"
+          },
+          "pagingCounter": {
+            "description": "The count of pages",
+            "type": "integer",
+            "example": "1"
+          },
+          "hasPrevPage": {
+            "description": "Tells you if you have previous pages",
+            "type": "boolean",
+            "example": "false"
+          },
+          "hastNextPage": {
+            "description": "Tells you if you have next pages",
+            "type": "boolean",
+            "example": "false"
+          },
+          "prevPage": {
+            "description": "Previous page if available",
+            "type": "integer",
+            "example": "1"
+          },
+          "nextPage": {
+            "description": "Next page if available",
+            "type": "integer",
+            "example": "null"
+          }
+        }
+      },
+      "UserCreateAndUpdate": {
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The user name.",
+            "type": "string",
+            "example": "Gastón"
+          },
+          "lastName": {
+            "description": "The user last name.",
+            "type": "string",
+            "example": "Martinez"
+          },
+          "email": {
+            "description": "The user email.",
+            "type": "string",
+            "example": "example@email.com"
+          },
+          "password": {
+            "description": "The user password.",
+            "type": "string",
+            "example": "Your password"
+          },
+          "birthdate": {
+            "description": "The user birthdate.",
+            "type": "date",
+            "example": "12/31/1989"
+          }
+        }
+      },
+      "RequestError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "Error code",
+            "type": "integer",
+            "example": "400"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string",
+            "example": "Validation Errors: Invalid id, invalid email, etc"
+          }
+        }
+      },
+      "ErrorDB": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "Error code",
+            "type": "integer",
+            "example": "500"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string",
+            "example": "Search failed: description of the error"
+          }
+        }
+      }
+    }
+  }
+}
