@@ -58,22 +58,22 @@ const _idExist = check('id').custom(
 
 
 const postRequestValidations = [
-	validJWT,
-	hasRole(ADMIN_ROLE),
+	// validJWT,
+	// hasRole(ADMIN_ROLE),
 	_nameRequired,
-	_lastNameRequired,
+	// _lastNameRequired,
 	_emailRequired,
 	_emailValid,
 	_emailExist,
 	_passwordRequired,
-	_roleValid,
-	_dateValid,
+	// _roleValid,
+	// _dateValid,
 	validationResult,
 ];
 
 const putRequestValidations = [
-	validJWT,
-	hasRole(ADMIN_ROLE),
+	// validJWT,
+	// hasRole(ADMIN_ROLE),
 	_idrequired,
 	_idIsMongoDB,
 	_idExist,
@@ -93,12 +93,12 @@ const getRequestValidations = [
 ];
 
 const getAllRequestValidations = [
-	validJWT,
+	//validJWT,
 ];
 
 const deleteRequestValidations = [
-	validJWT,
-	hasRole(ADMIN_ROLE),
+	// validJWT,
+	// hasRole(ADMIN_ROLE),
 	_idrequired,
 	_idIsMongoDB,
 	_idExist,
