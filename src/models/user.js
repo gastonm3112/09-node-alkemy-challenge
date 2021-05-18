@@ -3,15 +3,6 @@ const sequelize = require('../loaders/sequelize');
 
 const User = sequelize.define('Users', {
   // Model attributes are defined here
-  username: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-    unique: true
-  },
-  password: {
-    type: DataTypes.STRING(50),
-    allowNull: false
-  },
   name: {
     type: DataTypes.STRING(50),
     allowNull: false
@@ -20,6 +11,10 @@ const User = sequelize.define('Users', {
     type: DataTypes.STRING(50),
     allowNull: false,
     unique: true
+  },
+  password: {
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   enable: {
     type: DataTypes.BOOLEAN,

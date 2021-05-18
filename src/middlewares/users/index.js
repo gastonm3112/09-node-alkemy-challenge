@@ -75,12 +75,12 @@ const putRequestValidations = [
 	// validJWT,
 	// hasRole(ADMIN_ROLE),
 	_idrequired,
-	_idIsMongoDB,
+	// _idIsMongoDB,
 	_idExist,
 	_optionalEmailValid,
 	_optionalEmailExist,
-	_roleValid,
-	_dateValid,
+	// _roleValid,
+	// _dateValid,
 	validationResult,
 ];
 
@@ -100,7 +100,7 @@ const deleteRequestValidations = [
 	// validJWT,
 	// hasRole(ADMIN_ROLE),
 	_idrequired,
-	_idIsMongoDB,
+	// _idIsMongoDB,
 	_idExist,
 	validationResult,
 ];
