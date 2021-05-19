@@ -1,45 +1,38 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const uniqueValidator = require('mongoose-unique-validator');
-const mongoosePaginate = require('mongoose-paginate-v2');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../loaders/sequelize');
 
-const userSchema = new Schema({
-    name: {
-        type: String,
-        required: [true, 'Name required']
-    },
-    lastName: {
-        type: String,
-        required: [true, 'Last name required']
-    },
-    email: {
-        type: String,
-        required: [true, 'Email required'],
-        unique: true,
-        index: true
-    },
-    birthdate: Date,
-    password: {
-        type: String,
-        required: [true, 'Password required']
-    },
-    role: {
-        type: String,
-        required: true,
-        default: 'USER_ROLE',
-        enum: ['USER_ROLE', 'ADMIN_ROLE']
-    },
-    enable: {
-        type: Boolean,
-        required: true,
-        default: true
-    }
-
+const User = sequelize.define('Users', {
+  // Model attributes are defined here
+  name: {
+    type: DataTypes.STRING(50),
+    allowNull: true
+  },
+  email: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+    unique: true
+  },
+  password: {
+    type: DataTypes.STRING(100),
+    allowNull: false
+  },
+  enable: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
+  },
+  role: {
+    type: DataTypes.ENUM({
+      values: ['USER_ROLE', 'ADMIN_ROLE']
+    }),
+    defaultValue: 'USER_ROLE'
+  }
 },
-    { timestamps: true }
-);
+  {
+    //Model Options
+  });
 
-userSchema.plugin(uniqueValidator, { message: 'already exist in the Data Base' });
-userSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model('users', userSchema);
+
+module.exports = User;
+
