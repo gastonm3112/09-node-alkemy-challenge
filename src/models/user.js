@@ -5,7 +5,7 @@ const User = sequelize.define('Users', {
   // Model attributes are defined here
   name: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   email: {
     type: DataTypes.STRING(50),
@@ -13,7 +13,7 @@ const User = sequelize.define('Users', {
     unique: true
   },
   password: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING(100),
     allowNull: false
   },
   enable: {
@@ -21,6 +21,12 @@ const User = sequelize.define('Users', {
     allowNull: false,
     defaultValue: true
   },
+  role: {
+    type: DataTypes.ENUM({
+      values: ['USER_ROLE', 'ADMIN_ROLE']
+    }),
+    defaultValue: 'USER_ROLE'
+  }
 },
   {
     //Model Options
