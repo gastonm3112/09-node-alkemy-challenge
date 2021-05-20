@@ -33,6 +33,7 @@ const GenderType = require('./genderTypes');
 Movie.belongsToMany(Character, {
   through: 'characterMovies',
   as: 'character',
+  foreignKey: 'movieId'
 
 });
 Movie.belongsTo(ContentType, {

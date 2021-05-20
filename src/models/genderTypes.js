@@ -8,6 +8,8 @@ const GenderType = sequelize.define('GenderType', {
     type: DataTypes.STRING(50),
     allowNull: false
   },
+}, {
+  timestamps: false
 });
 
 module.exports = GenderType;

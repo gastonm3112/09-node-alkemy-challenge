@@ -12,8 +12,8 @@ module.exports = async () => {
         require('../models/contentTypes');
         require('../models/genderTypes');
 
-        sequelize.sync({ force: true });
-        // sequelize.sync();
+        // sequelize.sync({ alter: true });
+        sequelize.sync();
         logger.info('DB loaded and connected');
 
         const server = new ExpressServer();

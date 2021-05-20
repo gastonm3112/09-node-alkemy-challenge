@@ -35,7 +35,7 @@ const Movie = require('./movies');
 Character.belongsToMany(Movie, {
   through: 'characterMovies',
   as: 'movies',
-  // foreignKey: 'movieId'
+  foreignKey: 'characterId'
 });
 
 
