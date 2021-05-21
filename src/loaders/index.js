@@ -7,6 +7,11 @@ module.exports = async () => {
 
     try {
         await sequelize.authenticate();
+        require('../models/characters');
+        require('../models/movies');
+        require('../models/contentTypes');
+        require('../models/genderTypes');
+
         // sequelize.sync({ alter: true });
         sequelize.sync();
         logger.info('DB loaded and connected');

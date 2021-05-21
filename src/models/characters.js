@@ -24,17 +24,19 @@ const Character = sequelize.define('Character', {
     type: DataTypes.STRING(1000),
     allowNull: false
   },
-},
-  {
-    //Model Options
-  });
+}, {
+  //Model Options
+});
 
-Character.belongsToMany(Movies, {
-  through: 'CharacterMovies',
+module.exports = Character;
+
+const Movie = require('./movies');
+
+Character.belongsToMany(Movie, {
+  through: 'characterMovies',
   as: 'movies',
   foreignKey: 'characterId'
 });
 
 
-module.exports = Character;
 
