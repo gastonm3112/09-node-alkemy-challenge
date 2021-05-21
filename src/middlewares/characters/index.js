@@ -44,7 +44,7 @@ const _roleValid = check('role').optional().custom(
 const _dateValid = check('birthdate').optional().isDate('MM-DD-YYYY');
 
 const _idrequired = check('id').not().isEmpty();
-const _idIsNumeric = check('id').isMongoId();
+const _idIsNumeric = check('id').isNumeric();
 const _idExist = check('id').custom(
 	async (id = '') => {
 		const userFound = await userService.findById(id);
@@ -54,6 +54,11 @@ const _idExist = check('id').custom(
 	}
 );
 
+const _ageIsNumeric = check('age').isNumeric();
+const _weigthIsNumeric = check('weigth').isNumeric();
+const _historyRequired = check('history').not().isEmpty();
+
+
 
 
 
@@ -61,13 +66,10 @@ const postRequestValidations = [
 	validJWT,
 	hasRole(ADMIN_ROLE),
 	_nameRequired,
-	// _lastNameRequired,
-	_emailRequired,
-	_emailValid,
-	_emailExist,
-	_passwordRequired,
+	_ageIsNumeric,
+	_historyRequired,
+	_weigthIsNumeric,
 	_roleValid,
-	// _dateValid,
 	validationResult,
 ];
 

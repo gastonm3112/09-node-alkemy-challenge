@@ -5,7 +5,7 @@ const Character = sequelize.define('Character', {
   // Model attributes are defined here
   image: {
     type: DataTypes.STRING(250),
-    allowNull: false
+    allowNull: true
   },
   name: {
     type: DataTypes.STRING(50),
