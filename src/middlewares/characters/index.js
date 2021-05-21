@@ -1,13 +1,12 @@
 const { check } = require('express-validator');
 const AppError = require('../../errors/appError');
-const userService = require('../../services/userService');
+const characterService = require('../../services/characterService');
 const { ROLES, ADMIN_ROLE } = require('../../constants');
 const { validationResult } = require('../commons');
 const { validJWT, hasRole } = require('../auth');
 
 
 const _nameRequired = check('name', 'Name required').not().isEmpty();
-const _lastNameRequired = check('lastName', 'Last Name required').not().isEmpty();
 
 const _emailRequired = check('email', 'Email required').not().isEmpty();
 const _emailValid = check('email', 'Email is invalid').isEmail();
@@ -31,7 +30,6 @@ const _optionalEmailExist = check('email').optional().custom(
 );
 
 
-const _passwordRequired = check('password', 'Password required').not().isEmpty();
 
 const _roleValid = check('role').optional().custom(
 	async (role = '') => {
@@ -41,22 +39,29 @@ const _roleValid = check('role').optional().custom(
 	}
 );
 
-const _dateValid = check('birthdate').optional().isDate('MM-DD-YYYY');
 
 const _idrequired = check('id').not().isEmpty();
 const _idIsNumeric = check('id').isNumeric();
 const _idExist = check('id').custom(
 	async (id = '') => {
-		const userFound = await userService.findById(id);
-		if (!userFound) {
+		const characterFound = await characterService.findById(id);
+		if (!characterFound) {
 			throw new AppError('The id does not exist in DB', 400);
 		}
 	}
 );
 
-const _ageIsNumeric = check('age').isNumeric();
-const _weigthIsNumeric = check('weigth').isNumeric();
+const _ageIsNumeric = check('age').optional().isNumeric();
+const _weigthIsNumeric = check('weigth').optional().isNumeric();
 const _historyRequired = check('history').not().isEmpty();
+const _nameNotExist = check('name').custom(
+	async (name = '') => {
+		const characterFound = await characterService.findByName(name);
+		if (characterFound) {
+			throw new AppError('The name exist in DB', 400);
+		}
+	}
+);
 
 
 
@@ -66,6 +71,7 @@ const postRequestValidations = [
 	validJWT,
 	hasRole(ADMIN_ROLE),
 	_nameRequired,
+	_nameNotExist,
 	_ageIsNumeric,
 	_historyRequired,
 	_weigthIsNumeric,
@@ -79,10 +85,10 @@ const putRequestValidations = [
 	_idrequired,
 	_idIsNumeric,
 	_idExist,
-	_optionalEmailValid,
-	_optionalEmailExist,
+	_nameNotExist,
+	_ageIsNumeric,
+	_weigthIsNumeric,
 	_roleValid,
-	// _dateValid,
 	validationResult,
 ];
 

@@ -16,7 +16,7 @@ const {
 
 const router = Router();
 
-router.get("/", getAllRequestValidations, getAllCharacters);
+// router.get("/", getAllRequestValidations, getAllCharacters);
 router.post("/", postRequestValidations, createCharacter);
 router.put("/:id", putRequestValidations, updateCharacter);
 router.get("/:id", getRequestValidations, getById);
