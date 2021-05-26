@@ -9,17 +9,17 @@ const Success = require('../handlers/successHandler');
  * @param {express.Response} res 
  */
 
-/*const getAllUsers = async (req, res, next) => {
+const getAllMovies = async (req, res, next) => {
 
     try {
-        const users = await userService.findAll(req.query.filter, req.query.options);
+        const movies = await movieService.findAll(req.query.filter, req.query.options);
 
-        res.json(new Success(users));
+        res.json(new Success(movies));
 
     } catch (err) {
         next(err);
     }
-};*/
+};
 
 /**
  * 
@@ -96,7 +96,7 @@ const deleteMovie = async (req, res, next) => {
 };
 
 module.exports = {
-    // getAllUsers,
+    getAllMovies,
     createMovie,
     updateMovie,
     getMovieById,
