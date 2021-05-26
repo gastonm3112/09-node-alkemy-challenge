@@ -66,7 +66,7 @@ const updateCharacter = async (req, res, next) => {
  * @param {express.Response} res 
  */
 
-const getById = async (req, res, next) => {
+const getCharacterById = async (req, res, next) => {
     try {
         const character = await characterService.findById(req.params.id)
 
@@ -99,7 +99,7 @@ module.exports = {
     // getAllUsers,
     createCharacter,
     updateCharacter,
-    getById,
+    getCharacterById,
     deleteCharacter
 }
 
