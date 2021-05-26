@@ -1,6 +1,8 @@
 const { check } = require('express-validator');
 const AppError = require('../../errors/appError');
 const movieService = require('../../services/movieService');
+const contentTypeService = require('../../services/contentTypeService');
+const genderTypeService = require('../../services/genderTypeService');
 const { ROLES, ADMIN_ROLE } = require('../../constants');
 const { validationResult } = require('../commons');
 const { validJWT, hasRole } = require('../auth');
@@ -42,6 +44,25 @@ const _titleNotExist = check('title').custom(
   }
 );
 
+const _contentTypeExistValidation = async (contentType = '') => {
+  const contentTypeFound = await contentTypeService.findByDescription(contentType);
+  if (!contentTypeFound) {
+    throw new AppError('The content type does not exist in DB', 400);
+  }
+};
+
+const _genderTypeExistValidation = async (genderType = '') => {
+  const genderTypeFound = await genderTypeService.findByDescription(genderType);
+  if (!genderTypeFound) {
+    throw new AppError('The gender type does not exist in DB', 400);
+  }
+};
+
+const _contentTypeExist = check('contentType').custom(_contentTypeExistValidation);
+const _genderTypeExist = check('genderType').custom(_genderTypeExistValidation);
+const _contentTypeExistAndOptional = check('contentType').optional().custom(_contentTypeExistValidation);
+const _genderTypeExistAndOptional = check('genderType').optional().custom(_genderTypeExistValidation);
+
 
 
 
@@ -55,6 +76,8 @@ const postRequestValidations = [
   _calificationIsNumeric,
   _creationDateRequired,
   _creationDateValid,
+  _contentTypeExist,
+  _genderTypeExist,
   _roleValid,
   validationResult,
 ];
@@ -68,6 +91,8 @@ const putRequestValidations = [
   _titleNotExist,
   _calificationIsOptional,
   _creationDateValid,
+  _contentTypeExistAndOptional,
+  _genderTypeExistAndOptional,
   _roleValid,
   validationResult,
 ];
