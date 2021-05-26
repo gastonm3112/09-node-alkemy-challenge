@@ -9,17 +9,17 @@ const Success = require('../handlers/successHandler');
  * @param {express.Response} res 
  */
 
-/*const getAllUsers = async (req, res, next) => {
+const getAllCharacters = async (req, res, next) => {
 
     try {
-        const users = await userService.findAll(req.query.filter, req.query.options);
+        const characters = await characterService.findAll(req.query.filter, req.query.options);
 
-        res.json(new Success(users));
+        res.json(new Success(characters));
 
     } catch (err) {
         next(err);
     }
-};*/
+};
 
 /**
  * 
@@ -96,7 +96,7 @@ const deleteCharacter = async (req, res, next) => {
 };
 
 module.exports = {
-    // getAllUsers,
+    getAllCharacters,
     createCharacter,
     updateCharacter,
     getCharacterById,
