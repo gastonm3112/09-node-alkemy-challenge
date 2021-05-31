@@ -1,11 +1,34 @@
+const { Op } = require('sequelize');
 const Character = require('../models/characters');
 
 class CharacterRepository {
   constructor() { }
 
   //TODO: Implementar filtro
-  async findAll() {
-    return await Character.findAll();
+  async findAll({ name, age, weigth }, options) {
+
+    let where = {};
+    if (name) {
+      where.name = {
+        [Op.like]: `%${name}%`
+      }
+    }
+    if (age) {
+      where.age = {
+        [Op.eq]: age
+      }
+    }
+    if (weigth) {
+      where.weigth = {
+        [Op.eq]: weigth
+      }
+    }
+
+    let config = {
+      where,
+      attributes: ['image', 'name']
+    }
+    return await Character.findAll(config)
   }
 
   async findById(id) {
