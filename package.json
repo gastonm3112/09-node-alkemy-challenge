@@ -1,6 +1,6 @@
 {
-  "name": "08-node-products",
-  "version": "1.0.0",
+  "name": "alkemy-challenge",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
