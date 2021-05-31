@@ -1,4 +1,5 @@
 const express = require('express');
+const logger = require('../loaders/logger');
 const movieService = require('../services/movieService');
 const Success = require('../handlers/successHandler');
 
@@ -12,7 +13,12 @@ const Success = require('../handlers/successHandler');
 const getAllMovies = async (req, res, next) => {
 
     try {
-        const movies = await movieService.findAll(req.query.filter, req.query.options);
+
+        logger.info('Query: ' + JSON.stringify(req.query));
+
+        const { filter = '', options = '' } = req.query;
+
+        const movies = await movieService.findAll(filter, options);
 
         res.json(new Success(movies));
 
