@@ -5,20 +5,30 @@ class CharacterRepository {
   constructor() { }
 
   //TODO: Implementar filtro
-  async findAll(filter, options) {
-    return await Character.findAll({
-      where: {
-        name: {
-          [Op.eq]: filter.name
-        },
-        age: {
-          [Op.eq]: filter.age
-        },
-        weigth: {
-          [Op.eq]: filter.weigth
-        },
+  async findAll({ name, age, weigth }, options) {
+
+    let where = {};
+    if (name) {
+      where.name = {
+        [Op.like]: `%${name}%`
       }
-    })
+    }
+    if (age) {
+      where.age = {
+        [Op.eq]: age
+      }
+    }
+    if (weigth) {
+      where.weigth = {
+        [Op.eq]: weigth
+      }
+    }
+
+    let config = {
+      where,
+      attributes: ['image', 'name']
+    }
+    return await Character.findAll(config)
   }
 
   async findById(id) {

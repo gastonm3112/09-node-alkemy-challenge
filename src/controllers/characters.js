@@ -1,4 +1,5 @@
 const express = require('express');
+const logger = require('../loaders/logger');
 const characterService = require('../services/characterService');
 const Success = require('../handlers/successHandler');
 
@@ -12,7 +13,12 @@ const Success = require('../handlers/successHandler');
 const getAllCharacters = async (req, res, next) => {
 
     try {
-        const characters = await characterService.findAll(req.query.filter, req.query.options);
+
+        logger.info('Query: ' + JSON.stringify(req.query));
+
+        const { filter = '', options = '' } = req.query;
+
+        const characters = await characterService.findAll(filter, options);
 
         res.json(new Success(characters));
 
