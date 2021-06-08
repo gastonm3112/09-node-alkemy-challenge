@@ -118,6 +118,19 @@ const deleteRequestValidations = [
   validationResult,
 ];
 
+const associationRequestValidations = [
+  validJWT,
+  hasRole(ADMIN_ROLE),
+  _idCharacterRequired,
+  _idCharacterIsNumeric,
+  _idCharacterExist,
+  _idMovieRequired,
+  _idMovieIsNumeric,
+  _idMovieExist,
+  _roleValid,
+  validationResult,
+]
+
 module.exports = {
   postRequestValidations,
   putRequestValidations,

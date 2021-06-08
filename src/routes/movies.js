@@ -21,5 +21,6 @@ router.post("/", postRequestValidations, createMovie);
 router.put("/:id", putRequestValidations, updateMovie);
 router.get("/:id", getRequestValidations, getMovieById);
 router.delete("/:id", deleteRequestValidations, deleteMovie);
+router.put("/:idCharacter/movies/:idMovie", associationRequestValidations, associateMovie);
 
 module.exports = router;
