@@ -30,10 +30,10 @@ const Character = sequelize.define('Character', {
 
 module.exports = Character;
 
-const Movie = require('./movies');
 
-Character.belongsToMany(Movie, {
-  through: 'characterMovies',
+
+Character.belongsToMany(require('./movies'), {
+  through: 'charactersMovies',
   as: 'movies',
   foreignKey: 'characterId'
 });

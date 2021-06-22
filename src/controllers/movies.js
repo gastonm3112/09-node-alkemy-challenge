@@ -101,12 +101,34 @@ const deleteMovie = async (req, res, next) => {
     }
 };
 
+/**
+ * 
+ * @param {exprees.Request} req 
+ * @param {express.Response} res 
+ */
+
+const associateCharacter = async (req, res, next) => {
+    try {
+        const character = req.character;
+        const movie = req.movie;
+
+        await movieService.associate(movie, character);
+
+        res.json(new Success());
+    } catch (err) {
+        next(err);
+    }
+};
+
+
+
 module.exports = {
     getAllMovies,
     createMovie,
     updateMovie,
     getMovieById,
-    deleteMovie
+    deleteMovie,
+    associateCharacter
 }
 
 

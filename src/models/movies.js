@@ -26,24 +26,26 @@ const Movie = sequelize.define('Movie', {
 
 module.exports = Movie;
 
-const Character = require('./characters');
+
 const ContentType = require('./contentTypes');
 const GenderType = require('./genderTypes');
 
-Movie.belongsToMany(Character, {
-  through: 'characterMovies',
-  as: 'character',
+Movie.belongsToMany(require('./characters'), {
+  through: 'charactersMovies',
+  as: 'characters',
   foreignKey: 'movieId'
 
 });
 Movie.belongsTo(ContentType, {
   foreignKey: "contentTypeId",
-  targetKey: "id"
+  targetKey: "id",
+  as: "contentType"
 });
 
 Movie.belongsTo(GenderType, {
   foreignKey: "genderTypeId",
-  targetKey: "id"
+  targetKey: "id",
+  as: "genderType"
 });
 
 

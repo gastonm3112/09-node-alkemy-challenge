@@ -39,6 +39,17 @@ class MovieRepository {
     return await Movie.findByPk(id);
   }
 
+  async findByIdWithCharacters(id) {
+    return await Movie.findByPk(id, {
+      include: [
+        'characters',
+        'genderType',
+        'contentType'
+      ],
+      attributes: ['id', 'title', 'image', 'creationDate', 'calification']
+    });
+  }
+
 
   async findByTitle(title) {
     return await Movie.findOne({ where: { title } });
