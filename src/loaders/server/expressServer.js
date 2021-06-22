@@ -11,6 +11,8 @@ class ExpressServer {
     this.port = config.port;
     this.basePathUser = `${config.api.prefix}/users`;
     this.basePathAuth = `${config.api.prefix}/auth`;
+    this.basePathCharacter = `${config.api.prefix}/characters`;
+    this.basePathMovie = `${config.api.prefix}/movies`;
 
     this._middlewares();
 
@@ -40,6 +42,8 @@ class ExpressServer {
 
     this.app.use(this.basePathAuth, require('../../routes/auth'));
     this.app.use(this.basePathUser, require('../../routes/users'));
+    this.app.use(this.basePathCharacter, require('../../routes/characters'));
+    this.app.use(this.basePathMovie, require('../../routes/movies'));
   }
 
   _notFound() {

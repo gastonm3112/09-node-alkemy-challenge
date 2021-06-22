@@ -1,7 +1,7 @@
 const newman = require('newman');
 
 newman.run({
-  collection: './postman/UserTest.postman_collection.json',
+  collection: './postman/AlkemyChallenge.postman_collection.json',
   environment: './postman/Desarrollo.postman_environment.json',
   reporters: ['htmlextra'],
   iterationCount: 1,
