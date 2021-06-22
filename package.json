@@ -1,13 +1,12 @@
 {
   "name": "alkemy-challenge",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "npx nodemon src",
     "start": "node src",
     "test": "node postman/newman",
-    "prepare": "husky install",
     "Lint-staged": "lint-staged"
   },
   "repository": {
